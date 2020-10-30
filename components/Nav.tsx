@@ -1,9 +1,8 @@
-import { css } from '@emotion/core';
-import styled from '@emotion/styled';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import Button from './Button';
 
 type NavLink = {
@@ -30,34 +29,13 @@ export default function Nav() {
   const router = useRouter();
   const navCTA = NAV_LINKS.find(n => n.isCTA);
   return (
-    <nav
-      css={css`
-        a:hover,
-        a.active {
-          color: var(--themeAccentColor);
-          border-bottom: 4px solid var(--themeAccentColor);
-        }
-        width: 30%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-        @media (max-width: 1200px) {
-          width: 40%;
-        }
-      `}
-    >
+    <StyledNav>
       {NAV_LINKS.filter(n => !n.isCTA && n.name !== 'home').map(link => (
         <NavItem key={link.path} isCTA={link.isCTA} to={link.path}>
           {link.name}
         </NavItem>
       ))}
-      <div
-        className="nav-cta"
-        css={css`
-          width: 150px;
-        `}
-      >
+      <div className="nav-cta">
         <Button
           alignCenter
           category="primary"
@@ -67,19 +45,22 @@ export default function Nav() {
           }}
         />
       </div>
-    </nav>
+    </StyledNav>
   );
 }
 
 export const NavItem = ({ to, children }) => (
-  <StyledNavlink href={to}>{children}</StyledNavlink>
+  <Link href={to}>
+    <StyledNavlink>{children}</StyledNavlink>
+  </Link>
 );
 
-const StyledNavlink = styled(Link)`
+const StyledNavlink = styled.a`
   text-decoration: none;
-  color: inherit;
+  color: var(--themeTextColor);
   padding-bottom: 0.2em;
   border-bottom: 4px solid var(--themeBG);
+  cursor: pointer;
 `;
 
 NavItem.propTypes = {
@@ -91,3 +72,22 @@ NavItem.propTypes = {
 NavItem.defaultProps = {
   isCTA: false,
 };
+
+const StyledNav = styled.nav`
+  a:hover,
+  a.active {
+    color: var(--themeAccentColor);
+    border-bottom: 4px solid var(--themeAccentColor);
+  }
+  width: 30%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  div.nav-cta {
+    width: 150px;
+  }
+  @media (max-width: 1200px) {
+    width: 40%;
+  }
+`;

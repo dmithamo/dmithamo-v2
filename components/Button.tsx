@@ -1,5 +1,5 @@
-import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
 export default function Button({
   children,

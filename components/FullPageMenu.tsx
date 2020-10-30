@@ -1,8 +1,8 @@
-import { css } from '@emotion/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import { useRef } from 'react';
+import styled from 'styled-components';
 import constants from '../utils/config/constants';
 import useClickOutside, {
   useEcapeKeyPress,
@@ -18,64 +18,7 @@ export default function FullPageMenu({ onClose }) {
 
   const navCTA = NAV_LINKS.find(n => n.isCTA);
   return (
-    <div
-      ref={ref}
-      css={css`
-        position: fixed;
-        padding: 1em 0;
-        top: 0vh;
-        right: 0;
-        height: 100vh;
-        width: 50%;
-        z-index: 1001;
-
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: center;
-        font-size: 1.75em;
-
-        background-color: var(--themeBG);
-        box-shadow: var(--modalShadow);
-
-        @media (max-width: ${constants.smallLaptopBreakPoint}) {
-          width: 65%;
-        }
-
-        button.close-btn {
-          font-size: 1.2em;
-        }
-
-        button.nav-link {
-          width: 75%;
-          display: flex;
-          flex-direction: row-reverse;
-          margin: auto;
-          padding: 0.8em 1em;
-          font-size: 1.1em;
-          margin-bottom: 1em;
-          text-decoration: none;
-          border-radius: 0;
-          border-bottom: 1px solid var(--black);
-
-          svg {
-            font-size: 1em;
-          }
-
-          &:hover {
-            color: var(--themeAccentColor);
-          }
-        }
-
-        button.nav-cta {
-          border-radius: 5px;
-          border: 1px solid var(--themeAccentColor);
-          &:hover {
-            color: var(--trueBlack);
-          }
-        }
-      `}
-    >
+    <StyledContaainer ref={ref}>
       <>
         {NAV_LINKS.filter(nav => !nav.isCTA).map(link => (
           <Button
@@ -116,10 +59,70 @@ export default function FullPageMenu({ onClose }) {
       >
         <FontAwesomeIcon icon={['far', 'times-circle']} />
       </Button>
-    </div>
+    </StyledContaainer>
   );
 }
 
 FullPageMenu.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
+
+const StyledContaainer = styled.div`
+  position: fixed;
+  padding: 1em 0;
+  top: 0vh;
+  right: 0;
+  height: 100vh;
+  width: 50%;
+  z-index: 1001;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 1.75em;
+
+  background-color: var(--themeBG);
+  box-shadow: var(--modalShadow);
+
+  @media (max-width: ${constants.smallLaptopBreakPoint}) {
+    width: 55%;
+  }
+
+  @media (max-width: ${constants.tabletsAndSmaller}) {
+    width: 75%;
+  }
+
+  button.close-btn {
+    font-size: 1.2em;
+  }
+
+  button.nav-link {
+    width: 75%;
+    display: flex;
+    flex-direction: row-reverse;
+    margin: auto;
+    padding: 0.7em;
+    font-size: 1.1em;
+    margin-bottom: 1em;
+    text-decoration: none;
+    border-radius: 0;
+    border-bottom: 1px solid var(--black);
+
+    svg {
+      font-size: 1em;
+    }
+
+    &:hover {
+      color: var(--themeAccentColor);
+    }
+  }
+
+  button.nav-cta {
+    border-radius: 5px;
+    border: 1px solid var(--themeAccentColor);
+    &:hover {
+      color: var(--trueBlack);
+    }
+  }
+`;

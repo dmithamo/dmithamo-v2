@@ -1,6 +1,6 @@
-import { css } from '@emotion/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
+import styled from 'styled-components';
 import constants from '../utils/config/constants';
 import Button from './Button';
 import FullPageMenu from './FullPageMenu';
@@ -18,31 +18,8 @@ const Header: React.FC<HeaderProps> = ({
 }: HeaderProps) => {
   return (
     <>
-      <header
-        css={css`
-          padding: 1em 3em;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          width: 100%;
-          box-shadow: ${showMenu ? 'none' : 'var(--modalShadow)'};
-          position: relative;
-
-          div.toggle-menu {
-            display: none;
-          }
-
-          @media (max-width: ${constants.smallLaptopBreakPoint}) {
-            div.toggle-menu {
-              display: inline-block;
-            }
-
-            nav,
-            div.cta {
-              display: none;
-            }
-          }
-        `}
+      <StyledHeader
+        style={{ boxShadow: showMenu ? 'none' : 'var(--modalShadow)' }}
       >
         <Logo />
         <Nav />
@@ -66,9 +43,33 @@ const Header: React.FC<HeaderProps> = ({
             }}
           />
         )}
-      </header>
+      </StyledHeader>
     </>
   );
 };
+
+const StyledHeader = styled.header`
+  padding: 1em 3em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  position: relative;
+
+  div.toggle-menu {
+    display: none;
+  }
+
+  @media (max-width: ${constants.smallLaptopBreakPoint}) {
+    div.toggle-menu {
+      display: inline-block;
+    }
+
+    nav,
+    div.cta {
+      display: none;
+    }
+  }
+`;
 
 export default Header;
